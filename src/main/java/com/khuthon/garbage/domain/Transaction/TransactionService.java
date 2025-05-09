@@ -33,12 +33,8 @@ public class TransactionService {
 
     private final MongoTemplate mongoTemplate;
 
-    public Transaction createTransaction(String postId, HttpSession session) {
-        // 세션에서 로그인한 사용자 정보 가져오기
-        User buyer = (User) session.getAttribute("user");
-        if (buyer == null) {
-            throw new RuntimeException("로그인된 사용자만 거래할 수 있습니다.");
-        }
+    public Transaction createTransaction(String postId, String userId, HttpSession session) {
+        User buyer = userRepository.findById(userId).get();
 
         // Post 정보 가져오기
         Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("포스트를 찾을 수 없습니다."));
@@ -85,11 +81,8 @@ public class TransactionService {
         return newArray;
     }
 
-    public List<Transaction> getMyTransactions(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            throw new RuntimeException("로그인된 사용자만 거래할 수 있습니다.");
-        }
+    public List<Transaction> getMyTransactions(HttpSession session, String userId) {
+        User user = userRepository.findById(userId).get();
 
         return transactionRepository.findByTransactionIdIn(
                 user.getTransactionIds() != null ? Arrays.asList(user.getTransactionIds()) : Collections.emptyList()

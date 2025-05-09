@@ -21,15 +21,15 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     // 거래 생성 API
-    @PostMapping("/{postId}")
+    @PostMapping("/{postId}/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Transaction createTransaction(@PathVariable String postId, HttpSession session) {
-        return transactionService.createTransaction(postId, session);
+    public Transaction createTransaction(@PathVariable String postId, @PathVariable String userId, HttpSession session) {
+        return transactionService.createTransaction(postId, userId, session);
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<ApiResponse<?>> getMyTransactions(HttpSession session) {
-        List<Transaction> transactions = transactionService.getMyTransactions(session);
+    @GetMapping("/me/{userId}")
+    public ResponseEntity<ApiResponse<?>> getMyTransactions(HttpSession session, @PathVariable String userId) {
+        List<Transaction> transactions = transactionService.getMyTransactions(session, userId);
         return ResponseEntity.ok(new ApiResponse<>(true, "거래 목록 조회 성공", transactions));
     }
 
