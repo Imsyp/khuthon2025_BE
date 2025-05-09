@@ -19,9 +19,9 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping(consumes = {"multipart/form-data"})
-    public ResponseEntity<ApiResponse<Post>> createPost(@ModelAttribute PostRequestDto dto, HttpSession session) {
-        Post post = postService.createPost(dto, session);
+    @PostMapping(value = "/{userId}", consumes = {"multipart/form-data"})
+    public ResponseEntity<ApiResponse<Post>> createPost(@ModelAttribute PostRequestDto dto,@PathVariable String userId , HttpSession session) {
+        Post post = postService.createPost(dto, userId, session);
         return ResponseEntity.ok(new ApiResponse<>(true, "Post created", post));
     }
 
@@ -71,6 +71,21 @@ public class PostController {
         if (to == null) to = LocalDateTime.now();
 
         List<Post> posts = postService.getMyPosts(user.getUserId(), from, to);
+        return ResponseEntity.ok(new ApiResponse<>(true, "My posts fetched", posts));
+    }
+
+    @GetMapping("/me/{userId}")
+    public ResponseEntity<ApiResponse<List<Post>>> getMyPosts(
+            HttpSession session,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to,
+            @PathVariable String userId
+    ) {
+        // 기본값: 최근 일주일
+        if (from == null) from = LocalDateTime.now().minusWeeks(1);
+        if (to == null) to = LocalDateTime.now();
+
+        List<Post> posts = postService.getMyPosts(userId, from, to);
         return ResponseEntity.ok(new ApiResponse<>(true, "My posts fetched", posts));
     }
 }
