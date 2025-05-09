@@ -29,12 +29,7 @@ public class PostService {
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
 
-    public Post createPost(PostRequestDto dto, HttpSession session) {
-        // 세션에서 로그인한 사용자 가져오기
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            throw new RuntimeException("로그인된 사용자만 게시글을 작성할 수 있습니다.");
-        }
+    public Post createPost(PostRequestDto dto, String userId, HttpSession session) {
 
         // 이미지 업로드 처리
         String imageUrl = null;
@@ -54,6 +49,8 @@ public class PostService {
                 throw new RuntimeException("이미지 업로드 실패", e);
             }
         }
+
+        User user = userRepository.findById(userId).get();
 
         // Post 저장
         Post post = new Post(dto.getFertId(), user.getUserId(), dto.getTitle(), dto.getDescription(), imageUrl);
