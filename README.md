@@ -1,14 +1,14 @@
-BE: https://github.com/Imsyp/khuthon2025_BE
-
-FE: https://github.com/choiwlsd/khuthon2025
-
-AI: https://github.com/coqls1229/KhuThon-AI/tree/main
-
 <img width="1000" alt="image" src="https://github.com/user-attachments/assets/adc35944-e514-4ef8-8b9a-962e91a5743a" />
 
 <img width="1000" alt="image" src="https://github.com/user-attachments/assets/e055f8a9-626a-48a9-9273-6a52b03513d2" />
 
+## Repository
 
+- BE: https://github.com/Imsyp/khuthon2025_BE
+
+- FE: https://github.com/choiwlsd/khuthon2025
+
+- AI: https://github.com/coqls1229/KhuThon-AI/tree/main
 
 ## Directory
 ```
