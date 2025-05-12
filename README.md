@@ -58,7 +58,7 @@
 │                       └── ApiResponse.java
 └── resources
     ├── application.properties
-    ├── plexiform-ion-455406-s6-f73416b0fdc3.json
+    ├── plexiform-ion-{}.json
     ├── static
     └── templates
 ```
